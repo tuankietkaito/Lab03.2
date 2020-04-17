@@ -2,50 +2,60 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdlib.h>
+
+// A -+- B -+- E -+- I
+//    |     `- F
+//    |- C -+- G
+//    `- D
+
 int main()
 {
-    pid_t pidB,pidC,pidD;
-
+    pid_t pidB, pidC, pidD;
     pidD = fork();
-
-    if(pidD == 0) {
+    if (pidD == 0)
+    {
         printf("Process ID: %d", getppid());
         getchar();
-
-    } else {
-        pidC= fork();
-        if(pidC == 0) {
+    }
+    else
+    {
+        pidC = fork();
+        if (pidC == 0)
+        {
             pid_t pidG;
             pidG = fork();
-            if(pidG == 0 ){
+            if (pidG == 0)
                 getchar();
-            } else {
+            else
                 getchar();
-            }
-        } else {
+        }
+        else
+        {
             pidB = fork();
-            if (pidB == 0) {
+            if (pidB == 0)
+            {
                 pid_t pidE, pidF;
                 pidF = fork();
-                if(pidF == 0){
+                if (pidF == 0)
                     getchar();
-                } else {
+                else
+                {
                     pidE = fork();
-                    if (pidE == 0) {
+                    if (pidE == 0)
+                    {
                         pid_t pidI;
                         pidI = fork();
-                        if(pidI ==0) {
+                        if (pidI == 0)
                             getchar();
-                        } else {
+                        else
                             getchar();
-                        }
-                    } else {
-                        getchar();
                     }
+                    else
+                        getchar();
                 }
-            } else {
-                getchar();
             }
+            else
+                getchar();
         }
     }
 }
