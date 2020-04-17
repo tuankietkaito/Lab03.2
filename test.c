@@ -10,10 +10,10 @@ void main(void)
     pid_t pid;
 
     pid = fork();
-    if (pid == 0)
-        ChildProcess();
-    else
+    if (pid != 0)
         ParentProcess();
+    else
+        ChildProcess();
 }
 
 void ChildProcess(void)
