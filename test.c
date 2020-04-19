@@ -1,29 +1,55 @@
 #include <stdio.h>
-#include <sys/types.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <stdlib.h>
 
-void ChildProcess(void);  /* child process prototype  */
-void ParentProcess(void); /* parent process prototype */
+// A -+- B -+- E -+- I
+//    |     `- F
+//    |- C -+- G
+//    `- D
 
-void main(void)
+int main()
 {
-    pid_t pid;
-
-    pid = fork();
-    if (pid != 0)
-        ParentProcess();
+    pid_t pB, pC, pD, pE, pF, pG, pI;
+    pB = fork();
+    if (pB == 0)
+    {
+        pE = fork();
+        if (pE == 0)
+        {
+            pI = fork();
+            if (pI == 0)
+                getchar();
+            else
+                getchar();
+        }
+        else
+        {
+            pF = fork();
+            if (pF == 0)
+                getchar();
+            else
+                getchar();
+        }
+    }
     else
-        ChildProcess();
-}
-
-void ChildProcess(void)
-{
-    for (int i = 0; i < 5; ++i)
-        printf("Child: %d\n", i);
-}
-
-void ParentProcess(void)
-{
-    for (int i = 0; i < 5; ++i)
-        printf("Parent: %d\n", i);
+    {
+        pC = fork();
+        if (pC == 0)
+        {
+            pG = fork();
+            if (pG == 0)
+                getchar();
+            else
+                getchar();
+        }
+        else
+        {
+            pD = fork();
+            if (pD == 0)
+                printf('ID = %d', getppid());
+            else
+                getchar();
+        }
+    }
 }
